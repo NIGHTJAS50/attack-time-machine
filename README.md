@@ -20,7 +20,7 @@ python -m venv .venv
 . .venv/bin/activate
 pip install -e ".[dev]"
 
-atm simulate --scenario ransomware-dry-run --out demo.atm.jsonl --key demo-secret
+atm simulate --scenario incident-dry-run --out demo.atm.jsonl --key demo-secret
 atm verify demo.atm.jsonl --key demo-secret
 atm timeline demo.atm.jsonl
 atm replay demo.atm.jsonl --speed 20
@@ -34,7 +34,7 @@ On Windows PowerShell:
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e ".[dev]"
-atm simulate --scenario ransomware-dry-run --out demo.atm.jsonl --key demo-secret
+atm simulate --scenario incident-dry-run --out demo.atm.jsonl --key demo-secret
 atm verify demo.atm.jsonl --key demo-secret
 pytest
 ```
@@ -83,10 +83,10 @@ The recorder writes an envelope around the event:
 ## CLI
 
 ```bash
-atm simulate --scenario ransomware-dry-run --out demo.atm.jsonl --key demo-secret
+atm simulate --scenario incident-dry-run --out demo.atm.jsonl --key demo-secret
 atm verify demo.atm.jsonl --key demo-secret
 atm timeline demo.atm.jsonl --type file_write
-atm query demo.atm.jsonl --subject proc:encryptor
+atm query demo.atm.jsonl --subject proc:find:1519
 atm replay demo.atm.jsonl --speed 10
 atm graph demo.atm.jsonl --format json
 atm graph demo.atm.jsonl --format dot

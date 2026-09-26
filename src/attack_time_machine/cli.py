@@ -16,7 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     simulate = sub.add_parser("simulate", help="write a safe demo incident timeline")
-    simulate.add_argument("--scenario", choices=sorted(SCENARIOS), default="ransomware-dry-run")
+    simulate.add_argument("--scenario", choices=sorted(SCENARIOS), default="incident-dry-run")
     simulate.add_argument("--out", required=True, type=Path)
     simulate.add_argument("--key", help="optional HMAC key")
 

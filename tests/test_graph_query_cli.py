@@ -4,11 +4,11 @@ from attack_time_machine.chain import ChainWriter, read_records
 from attack_time_machine.cli import main
 from attack_time_machine.graph import build_graph
 from attack_time_machine.query import filter_records
-from attack_time_machine.simulator import ransomware_dry_run
+from attack_time_machine.simulator import incident_dry_run
 
 
 def write_demo(path: Path) -> None:
-    ChainWriter(path, key="secret").append_many(ransomware_dry_run())
+    ChainWriter(path, key="secret").append_many(incident_dry_run())
 
 
 def test_graph_reconstructs_roots_and_edges(tmp_path: Path) -> None:

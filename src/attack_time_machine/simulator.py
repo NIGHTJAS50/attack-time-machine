@@ -9,7 +9,7 @@ def ts(base: datetime, seconds: int) -> str:
     return (base + timedelta(seconds=seconds)).isoformat(timespec="microseconds").replace("+00:00", "Z")
 
 
-def ransomware_dry_run() -> list[Event]:
+def incident_dry_run() -> list[Event]:
     base = datetime(2026, 1, 1, 12, 0, tzinfo=timezone.utc)
     e1 = Event(
         event_id="evt:login",
@@ -76,4 +76,4 @@ def ransomware_dry_run() -> list[Event]:
     return [e1, e2, e3, e4, e5, e6, e7]
 
 
-SCENARIOS = {"ransomware-dry-run": ransomware_dry_run}
+SCENARIOS = {"incident-dry-run": incident_dry_run}
