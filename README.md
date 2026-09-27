@@ -41,6 +41,16 @@ pytest
 
 ## Architecture
 
+```mermaid
+flowchart LR
+  Source[Simulator / eBPF / auditd] --> Normalize[Event normalization]
+  Normalize --> Chain[Hash-chain recorder]
+  Chain --> Evidence[(Append-only JSONL)]
+  Evidence --> Verify[Integrity verification]
+  Evidence --> Graph[Causal graph]
+  Graph --> CLI[Timeline / query / replay CLI]
+```
+
 ```text
 Collectors          Recorder               Evidence Store          Reconstruction
 ----------          --------               --------------          --------------
@@ -79,6 +89,16 @@ The recorder writes an envelope around the event:
 - optional `hmac`
 
 `record_hash` commits to the previous hash and normalized event, creating a tamper-evident chain.
+
+## Design Trade-offs
+
+- JSONL keeps evidence inspectable and streamable, while hash chaining makes random updates intentionally expensive.
+- The simulator is safe and portable, while privileged Linux collectors remain an adapter boundary rather than a hidden platform dependency.
+- HMAC sealing detects unauthorized modification when the key is protected, but remote immutable storage is still required for host-compromise resilience.
+
+## API and CLI Contract
+
+The Python API centers on `Event`, `ChainWriter`, and `verify_records`. The public CLI commands are `simulate`, `verify`, `timeline`, `query`, `replay`, and `graph`; each accepts an evidence path and emits human-readable output or JSON/DOT for automation.
 
 ## CLI
 

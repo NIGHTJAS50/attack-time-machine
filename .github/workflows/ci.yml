@@ -1,0 +1,29 @@
+name: Python CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install project and test tools
+        run: python -m pip install --upgrade pip && pip install -e ".[dev]" pytest-cov pip-audit
+      - name: Run tests with coverage
+        run: pytest --cov=attack_time_machine --cov-report=term-missing --cov-report=xml --cov-fail-under=85
+      - name: Audit dependencies
+        run: pip-audit
+      - name: Build container
+        run: docker build --tag attack-time-machine:ci .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage
+          path: coverage.xml
